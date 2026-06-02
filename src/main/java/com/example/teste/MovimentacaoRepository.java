@@ -1,6 +1,5 @@
-package com.example.teste.repository;
+package com.example.teste;
 
-import com.example.teste.model.Movimentacao;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

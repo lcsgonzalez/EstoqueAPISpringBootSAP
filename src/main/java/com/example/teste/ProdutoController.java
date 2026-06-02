@@ -1,8 +1,5 @@
-package com.example.teste.controller;
+package com.example.teste;
 
-import com.example.teste.dto.ProdutoDTO;
-import com.example.teste.model.Produto;
-import com.example.teste.service.ProdutoService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,8 +41,4 @@ public class ProdutoController {
         return "Produto deletado com sucesso";
     }
 
-    @GetMapping("/baixo-estoque")
-    public List<Produto> listarAbaixoDoLimite() {
-        return produtoService.listarAbaixoDoLimite();
-    }
 }

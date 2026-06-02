@@ -1,8 +1,5 @@
-package com.example.teste.service;
+package com.example.teste;
 
-import com.example.teste.dto.ProdutoDTO;
-import com.example.teste.model.Produto;
-import com.example.teste.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,9 +16,10 @@ public class ProdutoService {
     public Produto cadastrar(ProdutoDTO dto) {
         Produto produto = new Produto();
 
-        produto.setNome(dto.getNome());
-        produto.setQuantidade(dto.getQuantidade());
-        produto.setLimiteMinimo(dto.getLimiteMinimo());
+        produto.setNome(dto.nome());
+        produto.setDescricao(dto.descricao());
+        produto.setPreco(dto.preco());
+        produto.setQuantidadeEstoque(dto.quantidadeEstoque());
 
         return produtoRepository.save(produto);
     }
@@ -38,9 +36,14 @@ public class ProdutoService {
     public Produto atualizar(Long id, ProdutoDTO dto) {
         Produto produto = buscarPorId(id);
 
-        produto.setNome(dto.getNome());
-        produto.setQuantidade(dto.getQuantidade());
-        produto.setLimiteMinimo(dto.getLimiteMinimo());
+        if(dto.nome()!=null && !dto.nome().isBlank())
+            produto.setNome(dto.nome());
+        if(dto.descricao()!=null && !dto.descricao().isBlank())
+            produto.setDescricao(dto.descricao());
+        if(dto.preco()!=null)
+            produto.setPreco(dto.preco());
+        if(dto.quantidadeEstoque()!=null && dto.quantidadeEstoque()>=0)
+            produto.setQuantidadeEstoque(dto.quantidadeEstoque());
 
         return produtoRepository.save(produto);
     }
@@ -48,12 +51,5 @@ public class ProdutoService {
     public void deletar(Long id) {
         Produto produto = buscarPorId(id);
         produtoRepository.delete(produto);
-    }
-
-    public List<Produto> listarAbaixoDoLimite() {
-        return produtoRepository.findAll()
-                .stream()
-                .filter(produto -> produto.getQuantidade() <= produto.getLimiteMinimo())
-                .toList();
     }
 }
