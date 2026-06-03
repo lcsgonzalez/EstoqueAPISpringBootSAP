@@ -1,5 +1,8 @@
-package com.example.teste;
+package br.com.senai.controllers;
 
+import br.com.senai.produto.Produto;
+import br.com.senai.produto.ProdutoDTO;
+import br.com.senai.services.ProdutoService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

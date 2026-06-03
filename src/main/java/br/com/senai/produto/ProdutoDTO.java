@@ -1,4 +1,4 @@
-package com.example.teste;
+package br.com.senai.produto;
 
 import java.math.BigDecimal;
 

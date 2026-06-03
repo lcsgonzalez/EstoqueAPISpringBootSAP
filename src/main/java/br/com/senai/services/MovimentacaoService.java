@@ -1,5 +1,10 @@
-package com.example.teste;
+package br.com.senai.services;
 
+import br.com.senai.movimentacao.Movimentacao;
+import br.com.senai.movimentacao.MovimentacaoDTO;
+import br.com.senai.movimentacao.MovimentacaoRepository;
+import br.com.senai.produto.Produto;
+import br.com.senai.produto.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

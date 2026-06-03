@@ -1,5 +1,6 @@
-package com.example.teste;
+package br.com.senai.movimentacao;
 
+import br.com.senai.produto.Produto;
 import jakarta.persistence.*;
 import lombok.*;
 

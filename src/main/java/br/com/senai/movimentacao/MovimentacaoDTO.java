@@ -1,4 +1,4 @@
-package com.example.teste;
+package br.com.senai.movimentacao;
 
 public record MovimentacaoDTO(
     Long produtoId,

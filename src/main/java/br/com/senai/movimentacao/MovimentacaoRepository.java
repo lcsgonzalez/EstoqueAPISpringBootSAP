@@ -1,4 +1,4 @@
-package com.example.teste;
+package br.com.senai.movimentacao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

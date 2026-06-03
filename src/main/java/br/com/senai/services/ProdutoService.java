@@ -1,5 +1,8 @@
-package com.example.teste;
+package br.com.senai.services;
 
+import br.com.senai.produto.Produto;
+import br.com.senai.produto.ProdutoDTO;
+import br.com.senai.produto.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

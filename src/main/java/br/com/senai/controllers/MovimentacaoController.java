@@ -1,5 +1,8 @@
-package com.example.teste;
+package br.com.senai.controllers;
 
+import br.com.senai.movimentacao.Movimentacao;
+import br.com.senai.movimentacao.MovimentacaoDTO;
+import br.com.senai.services.MovimentacaoService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
