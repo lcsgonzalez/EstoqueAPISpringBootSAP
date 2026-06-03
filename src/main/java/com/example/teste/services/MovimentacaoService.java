@@ -1,6 +1,15 @@
-package com.example.teste;
+package com.example.teste.services;
 
+import com.example.teste.movimentacao.Movimentacao;
+import com.example.teste.movimentacao.MovimentacaoDTO;
+import com.example.teste.movimentacao.MovimentacaoRepository;
+import com.example.teste.produto.Produto;
+import com.example.teste.produto.ProdutoRepository;
+import com.example.teste.usuario.Usuario;
+import com.example.teste.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +35,11 @@ public class MovimentacaoService {
         Produto produto = produtoRepository.findById(dto.produtoId())
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+
+        Usuario usuario = (Usuario) authentication.getPrincipal();
+
         if (dto.tipo().equalsIgnoreCase("ENTRADA")) {
             produto.setQuantidadeEstoque(produto.getQuantidadeEstoque() + dto.quantidade());
         } else {
@@ -36,6 +50,7 @@ public class MovimentacaoService {
 
         Movimentacao movimentacao = new Movimentacao();
         movimentacao.setProduto(produto);
+        movimentacao.setUsuario(usuario);
         movimentacao.setTipo(dto.tipo().toUpperCase());
         movimentacao.setQuantidade(dto.quantidade());
 

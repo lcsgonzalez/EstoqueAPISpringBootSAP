@@ -1,5 +1,8 @@
-package com.example.teste;
+package com.example.teste.controller;
 
+import com.example.teste.movimentacao.Movimentacao;
+import com.example.teste.movimentacao.MovimentacaoDTO;
+import com.example.teste.services.MovimentacaoService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +28,7 @@ public class MovimentacaoController {
         return movimentacaoService.listar();
     }
 
-    @GetMapping("/produto/{produtoId}")
+    @GetMapping("/produtos/{produtoId}")
     public List<Movimentacao> listarPorProduto(@PathVariable Long produtoId) {
         return movimentacaoService.listarPorProduto(produtoId);
     }

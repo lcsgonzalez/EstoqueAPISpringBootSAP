@@ -1,11 +1,11 @@
-package com.example.teste;
+package com.example.teste.produto;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
 
-@Table(name="produto")
+@Table(name="produtos")
 @Entity(name="Produto")
 @Getter
 @Setter
