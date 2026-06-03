@@ -1,5 +1,10 @@
-package com.example.teste;
+package com.example.teste.service;
 
+import com.example.teste.movimentacao.Movimentacao;
+import com.example.teste.movimentacao.MovimentacaoDTO;
+import com.example.teste.movimentacao.MovimentacaoRepository;
+import com.example.teste.produto.Produto;
+import com.example.teste.produto.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,9 +32,25 @@ public class MovimentacaoService {
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
         if (dto.tipo().equalsIgnoreCase("ENTRADA")) {
-            produto.setQuantidadeEstoque(produto.getQuantidadeEstoque() + dto.quantidade());
+
+            produto.setQuantidadeEstoque(
+                    produto.getQuantidadeEstoque() + dto.quantidade()
+            );
+
+        } else if (dto.tipo().equalsIgnoreCase("SAIDA")) {
+
+            if (produto.getQuantidadeEstoque() < dto.quantidade()) {
+                throw new RuntimeException("Estoque insuficiente, quantidade em estoque é: " + produto.getQuantidadeEstoque());
+            }
+
+            produto.setQuantidadeEstoque(
+                    produto.getQuantidadeEstoque() - dto.quantidade()
+            );
+
         } else {
-            throw new RuntimeException("Tipo de movimentação inválido. Use ENTRADA ou SAIDA");
+            throw new RuntimeException(
+                    "Tipo de movimentação inválido. Use ENTRADA ou SAIDA"
+            );
         }
 
         produtoRepository.save(produto);
@@ -42,11 +63,12 @@ public class MovimentacaoService {
         return movimentacaoRepository.save(movimentacao);
     }
 
-    public List<Movimentacao> listar() {
-        return movimentacaoRepository.findAll();
-    }
 
-    public List<Movimentacao> listarPorProduto(Long produtoId) {
-        return movimentacaoRepository.findByProdutoId(produtoId);
-    }
+public List<Movimentacao> listar() {
+    return movimentacaoRepository.findAll();
+}
+
+public List<Movimentacao> listarPorProduto(Long produtoId) {
+    return movimentacaoRepository.findByProdutoId(produtoId);
+}
 }
