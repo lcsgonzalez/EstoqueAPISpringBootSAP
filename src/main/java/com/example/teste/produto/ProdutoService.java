@@ -1,8 +1,11 @@
-package com.example.teste;
+package com.example.teste.produto;
 
+import com.example.teste.movimentacao.Movimentacao;
+import com.example.teste.movimentacao.MovimentacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -10,9 +13,12 @@ public class ProdutoService {
 
     @Autowired
     private ProdutoRepository produtoRepository;
+    @Autowired
+    private MovimentacaoRepository movimentacaoRepository;
 
     public ProdutoService(ProdutoRepository produtoRepository) {
         this.produtoRepository = produtoRepository;
+        this.movimentacaoRepository = movimentacaoRepository;
     }
 
     public Produto cadastrar(ProdutoDTO dto) {
@@ -23,7 +29,17 @@ public class ProdutoService {
         produto.setPreco(dto.preco());
         produto.setQuantidadeEstoque(dto.quantidadeEstoque());
 
-        return produtoRepository.save(produto);
+        produto = produtoRepository.save(produto);
+
+        Movimentacao movimentacao = new Movimentacao();
+        movimentacao.setTipo("Entrada");
+        movimentacao.setQuantidade(dto.quantidadeEstoque());
+        movimentacao.setProduto(produto);
+        movimentacao.setDataMovimentacao(LocalDateTime.now());
+
+        movimentacaoRepository.save(movimentacao);
+
+        return produto;
     }
 
     public List<Produto> listar() {

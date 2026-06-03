@@ -1,5 +1,8 @@
-package com.example.teste;
+package com.example.teste.controllers;
 
+import com.example.teste.movimentacao.Movimentacao;
+import com.example.teste.movimentacao.MovimentacaoDTO;
+import com.example.teste.movimentacao.MovimentacaoService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

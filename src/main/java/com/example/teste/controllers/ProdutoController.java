@@ -1,5 +1,8 @@
-package com.example.teste;
+package com.example.teste.controllers;
 
+import com.example.teste.produto.Produto;
+import com.example.teste.produto.ProdutoDTO;
+import com.example.teste.produto.ProdutoService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
