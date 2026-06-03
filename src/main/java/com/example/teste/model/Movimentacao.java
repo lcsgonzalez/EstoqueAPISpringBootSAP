@@ -1,7 +1,9 @@
-package com.example.teste;
+package com.example.teste.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Table(name="movimentacao")
 @Entity(name="Movimentacao")
@@ -17,6 +19,8 @@ public class Movimentacao {
     private Long id;
     private String tipo;
     private Integer quantidade;
+    private LocalDateTime dataMovimentacao;
+    private String usuarioLogin;
 
     @ManyToOne
     @JoinColumn(name = "produto_id")

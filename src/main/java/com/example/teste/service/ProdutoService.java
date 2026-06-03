@@ -1,7 +1,13 @@
-package com.example.teste;
+package com.example.teste.service;
 
+import com.example.teste.dto.ProdutoDTO;
+import com.example.teste.model.Produto;
+import com.example.teste.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,6 +21,7 @@ public class ProdutoService {
         this.produtoRepository = produtoRepository;
     }
 
+    @Transactional
     public Produto cadastrar(ProdutoDTO dto) {
         Produto produto = new Produto();
 
@@ -26,7 +33,11 @@ public class ProdutoService {
         return produtoRepository.save(produto);
     }
 
-    public List<Produto> listar() {
+    public Page<Produto> listar(Pageable pageable) {
+        return produtoRepository.findAll(pageable);
+    }
+
+    public List<Produto> listarTodos() {
         return produtoRepository.findAll();
     }
 
@@ -35,6 +46,7 @@ public class ProdutoService {
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
     }
 
+    @Transactional
     public Produto atualizar(Long id, ProdutoDTO dto) {
         Produto produto = buscarPorId(id);
 
@@ -50,6 +62,7 @@ public class ProdutoService {
         return produtoRepository.save(produto);
     }
 
+    @Transactional
     public void deletar(Long id) {
         Produto produto = buscarPorId(id);
         produtoRepository.delete(produto);
