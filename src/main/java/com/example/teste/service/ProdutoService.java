@@ -1,5 +1,8 @@
-package com.example.teste;
+package com.example.teste.service;
 
+import com.example.teste.dto.ProdutoDTO;
+import com.example.teste.model.Produto;
+import com.example.teste.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
