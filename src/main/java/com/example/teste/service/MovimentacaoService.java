@@ -1,5 +1,10 @@
-package com.example.teste;
+package com.example.teste.service;
 
+import com.example.teste.movimentacao.Movimentacao;
+import com.example.teste.movimentacao.MovimentacaoDTO;
+import com.example.teste.movimentacao.MovimentacaoRepository;
+import com.example.teste.produto.Produto;
+import com.example.teste.produto.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
