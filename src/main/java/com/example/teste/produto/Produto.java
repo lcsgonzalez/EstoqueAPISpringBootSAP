@@ -1,4 +1,4 @@
-package com.example.teste;
+package com.example.teste.produto;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,5 +21,13 @@ public class Produto {
     private String descricao;
     private BigDecimal preco;
     private Integer quantidadeEstoque;
+
+    public Produto (DadosCadastroProduto dados){
+        this.nome = dados.nome();
+        this.descricao = dados.descricao();
+        this.preco = dados.preco();
+        this.quantidadeEstoque = dados.quantidadeEstoque();
+
+    }
 
 }

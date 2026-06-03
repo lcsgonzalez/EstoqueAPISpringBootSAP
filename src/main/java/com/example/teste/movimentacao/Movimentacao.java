@@ -1,7 +1,11 @@
-package com.example.teste;
+package com.example.teste.movimentacao;
 
+import com.example.teste.produto.Produto;
+import com.example.teste.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Table(name="movimentacao")
 @Entity(name="Movimentacao")
@@ -17,9 +21,12 @@ public class Movimentacao {
     private Long id;
     private String tipo;
     private Integer quantidade;
-
+    private LocalDateTime dataHora;
     @ManyToOne
     @JoinColumn(name = "produto_id")
     private Produto produto;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
 }

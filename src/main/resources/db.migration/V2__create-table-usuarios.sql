@@ -1,0 +1,7 @@
+CREATE TABLE usuarios (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    login VARCHAR(50) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,  -- armazena o hash BCrypt (com salt embutido)
+    role ENUM('OPERADOR', 'ADMIN') NOT NULL,
+    ativo TINYINT NOT NULL DEFAULT 1
+);

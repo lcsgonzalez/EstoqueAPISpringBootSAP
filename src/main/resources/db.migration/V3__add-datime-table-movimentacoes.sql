@@ -1,0 +1,3 @@
+ALTER TABLE movimentacao(
+ADD COLUMN data_hora DATETIME NOT NULL;
+)

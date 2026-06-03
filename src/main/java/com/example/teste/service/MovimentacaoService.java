@@ -1,8 +1,16 @@
-package com.example.teste;
+package com.example.teste.service;
 
+import com.example.teste.movimentacao.Movimentacao;
+import com.example.teste.movimentacao.MovimentacaoDTO;
+import com.example.teste.movimentacao.MovimentacaoRepository;
+import com.example.teste.produto.Produto;
+import com.example.teste.produto.ProdutoRepository;
+import com.example.teste.usuario.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -23,11 +31,18 @@ public class MovimentacaoService {
     }
 
     public Movimentacao movimentar(MovimentacaoDTO dto) {
+        Usuario usuario = (Usuario) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
         Produto produto = produtoRepository.findById(dto.produtoId())
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
         if (dto.tipo().equalsIgnoreCase("ENTRADA")) {
             produto.setQuantidadeEstoque(produto.getQuantidadeEstoque() + dto.quantidade());
+        }else if (dto.tipo().equalsIgnoreCase("SAIDA")) {
+            produto.setQuantidadeEstoque(produto.getQuantidadeEstoque() - dto.quantidade());
         } else {
             throw new RuntimeException("Tipo de movimentação inválido. Use ENTRADA ou SAIDA");
         }
@@ -38,6 +53,8 @@ public class MovimentacaoService {
         movimentacao.setProduto(produto);
         movimentacao.setTipo(dto.tipo().toUpperCase());
         movimentacao.setQuantidade(dto.quantidade());
+        movimentacao.setDataHora(LocalDateTime.now());
+        movimentacao.setUsuario(usuario);
 
         return movimentacaoRepository.save(movimentacao);
     }
