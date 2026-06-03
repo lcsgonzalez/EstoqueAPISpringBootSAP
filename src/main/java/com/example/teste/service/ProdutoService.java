@@ -1,5 +1,8 @@
-package com.example.teste;
+package com.example.teste.service;
 
+import com.example.teste.dto.ProdutoDTO;
+import com.example.teste.model.Produto;
+import com.example.teste.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,11 @@ public class ProdutoService {
     }
 
     public Produto cadastrar(ProdutoDTO dto) {
+
+        if (produtoRepository.existsByNomeIgnoreCase(dto.nome())) {
+            throw new RuntimeException("Já existe um produto com esse nome");
+        }
+
         Produto produto = new Produto();
 
         produto.setNome(dto.nome());
@@ -38,13 +46,24 @@ public class ProdutoService {
     public Produto atualizar(Long id, ProdutoDTO dto) {
         Produto produto = buscarPorId(id);
 
-        if(dto.nome()!=null && !dto.nome().isBlank())
+        if(dto.nome() != null && !dto.nome().isBlank()) {
+
+            if(!produto.getNome().equalsIgnoreCase(dto.nome())
+                    && produtoRepository.existsByNomeIgnoreCase(dto.nome())) {
+
+                throw new RuntimeException("Já existe um produto com esse nome");
+            }
+
             produto.setNome(dto.nome());
-        if(dto.descricao()!=null && !dto.descricao().isBlank())
+        }
+
+        if(dto.descricao() != null && !dto.descricao().isBlank())
             produto.setDescricao(dto.descricao());
-        if(dto.preco()!=null)
+
+        if(dto.preco() != null)
             produto.setPreco(dto.preco());
-        if(dto.quantidadeEstoque()!=null && dto.quantidadeEstoque()>=0)
+
+        if(dto.quantidadeEstoque() != null && dto.quantidadeEstoque() >= 0)
             produto.setQuantidadeEstoque(dto.quantidadeEstoque());
 
         return produtoRepository.save(produto);

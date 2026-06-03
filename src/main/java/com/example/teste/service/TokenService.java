@@ -1,0 +1,38 @@
+package com.example.teste.service;
+
+import com.example.teste.usuario.Usuario;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+
+@Service
+public class TokenService {
+    @Value("${api.security.token.secret}")
+    private String secret; // chave secreta (configure no application.properties)
+
+    private static final long EXPIRATION = 86400000L; // 1 dia
+
+    public String gerarToken(Usuario usuario) {
+        Date agora = new Date();
+        Date expiracao = new Date(agora.getTime() + EXPIRATION);
+        return Jwts.builder()
+                .setSubject(usuario.getLogin())
+                .claim("role", usuario.getRole().name())
+                .setIssuedAt(agora)
+                .setExpiration(expiracao)
+                .signWith(SignatureAlgorithm.HS256, secret)
+                .compact();
+    }
+
+    public String getSubject(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(secret)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
+}
