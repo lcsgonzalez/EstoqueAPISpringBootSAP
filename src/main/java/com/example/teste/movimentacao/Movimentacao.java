@@ -1,5 +1,6 @@
-package com.example.teste;
+package com.example.teste.movimentacao;
 
+import com.example.teste.produto.Produto;
 import jakarta.persistence.*;
 import lombok.*;
 

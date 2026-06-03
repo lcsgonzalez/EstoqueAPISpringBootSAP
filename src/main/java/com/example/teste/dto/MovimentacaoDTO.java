@@ -1,4 +1,4 @@
-package com.example.teste;
+package com.example.teste.dto;
 
 public record MovimentacaoDTO(
     Long produtoId,
