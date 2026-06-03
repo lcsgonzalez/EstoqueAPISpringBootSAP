@@ -1,7 +1,12 @@
-package com.example.teste;
+package com.example.teste.controller;
 
+import com.example.teste.produto.Produto;
+import com.example.teste.produto.ProdutoDTO;
+import com.example.teste.service.ProdutoService;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -21,8 +26,20 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public List<Produto> listar() {
-        return produtoService.listar();
+    public Page<Produto> listar(
+            @RequestParam(required = false) String nome,
+            @RequestParam(required = false) LocalDate dataInicio,
+            @RequestParam(required = false) LocalDate dataFim,
+            @RequestParam(defaultValue = "0") int pagina,
+            @RequestParam(defaultValue = "10") int tamanho
+    ) {
+        return produtoService.listar(
+                nome,
+                dataInicio,
+                dataFim,
+                pagina,
+                tamanho
+        );
     }
 
     @GetMapping("/{id}")

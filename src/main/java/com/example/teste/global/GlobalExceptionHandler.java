@@ -1,4 +1,4 @@
-package com.example.teste;
+package com.example.teste.global;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

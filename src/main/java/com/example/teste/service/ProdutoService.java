@@ -1,9 +1,14 @@
-package com.example.teste;
+package com.example.teste.service;
 
+import com.example.teste.produto.Produto;
+import com.example.teste.produto.ProdutoDTO;
+import com.example.teste.produto.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 public class ProdutoService {
@@ -26,8 +31,37 @@ public class ProdutoService {
         return produtoRepository.save(produto);
     }
 
-    public List<Produto> listar() {
-        return produtoRepository.findAll();
+    public Page<Produto> listar(
+            String nome,
+            LocalDate dataInicio,
+            LocalDate dataFim,
+            int pagina,
+            int tamanho
+    ) {
+
+        Pageable pageable = PageRequest.of(
+                pagina,
+                tamanho,
+                Sort.by("id").descending()
+        );
+
+        LocalDateTime inicio = null;
+        LocalDateTime fim = null;
+
+        if (dataInicio != null) {
+            inicio = dataInicio.atStartOfDay();
+        }
+
+        if (dataFim != null) {
+            fim = dataFim.atTime(23, 59, 59);
+        }
+
+        return produtoRepository.buscarComFiltros(
+                nome,
+                inicio,
+                fim,
+                pageable
+        );
     }
 
     public Produto buscarPorId(Long id) {
@@ -38,13 +72,16 @@ public class ProdutoService {
     public Produto atualizar(Long id, ProdutoDTO dto) {
         Produto produto = buscarPorId(id);
 
-        if(dto.nome()!=null && !dto.nome().isBlank())
+        if (dto.nome() != null && !dto.nome().isBlank())
             produto.setNome(dto.nome());
-        if(dto.descricao()!=null && !dto.descricao().isBlank())
+
+        if (dto.descricao() != null && !dto.descricao().isBlank())
             produto.setDescricao(dto.descricao());
-        if(dto.preco()!=null)
+
+        if (dto.preco() != null)
             produto.setPreco(dto.preco());
-        if(dto.quantidadeEstoque()!=null && dto.quantidadeEstoque()>=0)
+
+        if (dto.quantidadeEstoque() != null && dto.quantidadeEstoque() >= 0)
             produto.setQuantidadeEstoque(dto.quantidadeEstoque());
 
         return produtoRepository.save(produto);
